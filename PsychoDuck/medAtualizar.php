@@ -54,7 +54,7 @@
 				mysqli_query($conn, 'SET character_set_results=utf8');
 				
 				// Faz Select na Base de Dados
-				$sql = "SELECT ID_Medico, Nome, CRM, Dt_Nasc, ID_Espec, Foto FROM Medico WHERE ID_Medico = $id";
+				$sql = "SELECT ID, Nome, CPF, Dt_Nasc, WHERE ID = $id";
 
 				//Inicio DIV form
 				echo "<div class='w3-responsive w3-card-4'>";
@@ -62,16 +62,14 @@
 					if(mysqli_num_rows($result) == 1){
 						$row = mysqli_fetch_assoc($result);
 						
-						$especialidade = $row['ID_Espec'];
-						$id_medico     = $row['ID_Medico'];
+						$id     = $row['ID'];
 						$nome          = $row['Nome'];
-						$CRM           = $row['CRM'];
-						$dataNasc      = $row['Dt_Nasc'];
-						$foto          = $row['Foto'];
+						$CPF           = $row['CPF'];
+						$dataNasc      = $row['Dt_Nasc']; 
 									
 						// Faz Select na Base de Dados
-						$sqlG = "SELECT ID_Espec, Nome_Espec FROM Especialidade";
-							
+						//$sqlG = "SELECT ID_Espec, Nome_Espec FROM Especialidade";
+						/*	
 						$optionsEspec = array();
 						
 						if ($result = mysqli_query($conn, $sqlG)) {
@@ -82,7 +80,7 @@
 								array_push($optionsEspec, "\t\t\t<option " . $selected . " value='". $row["ID_Espec"]."'>".$row["Nome_Espec"]."</option>\n");
 							}
 						}
-
+						*/
 						?>
 						<div class="w3-container w3-theme">
 							<h2>Altere os dados do Médico Cód. = [<?php echo $id_medico; ?>]</h2>
@@ -100,21 +98,13 @@
 							<p>
 							<label class="w3-text-IE"><b>CRM</b>*</label>
 							<input class="w3-input w3-border w3-light-grey " name="CRM" id="CRM"  type="text" maxlength="15"
-						       placeholder="CRM/UF XXXX-XX" title="CRM/UF XXXX-XX" value="<?php echo $CRM; ?>" pattern="CRM\/([A-Z]{2}) [0-9]{4}-[0-9]{2}$" required></p>
+						       placeholder="CRM/UF XXXX-XX" title="CRM/UF XXXX-XX" value="<?php echo $CPF; ?>" pattern="CRM\/([A-Z]{2}) [0-9]{4}-[0-9]{2}$" required></p>
 							<p>
 							<label class="w3-text-IE"><b>Data de Nascimento</b></label>
 							<input class="w3-input w3-border w3-light-grey " name="DataNasc" type="date"
 									placeholder="dd/mm/aaaa" title="dd/mm/aaaa"
 									title="Formato: dd/mm/aaaa" value="<?php echo $dataNasc; ?>"></p>
 							
-							<p><label class="w3-text-IE"><b>Especialidade</b>*</label>
-							<select name="Especialidade" id="Especialidade" class="w3-input w3-border w3-light-grey " required>
-
-							<?php
-								foreach($optionsEspec as $key => $value){
-									echo $value;
-								}
-							?>
 							</select>
 							</p>
 						

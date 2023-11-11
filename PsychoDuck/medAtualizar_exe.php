@@ -38,17 +38,15 @@
 		echo "</p> "
 		?>
 		<div class="w3-container w3-theme">
-		<h2>Atualização de Médico</h2>
+		<h2>Atualização de Usuario</h2>
 		</div>
 		<!-- Acesso ao BD-->
 		<?php
 			// Recebe os dados que foram preenchidos no formulário, com os valores que serão atualizados
 			$id      = $_POST['Id'];  // identifica o registro a ser alterado
 			$nome    = $_POST['Nome'];
-			$CRM     = $_POST['CRM'];
-			$dtNasc  = $_POST['DataNasc'];
-			$espec   = $_POST['Especialidade'];
-
+			$CPF     = $_POST['CPF'];
+			$dtNasc  = $_POST['DT_Nascimento'];
 			// Cria conexão
 			$conn = mysqli_connect($servername, $username, $password, $database);
 
@@ -68,10 +66,10 @@
 		
 			// Faz Update na Base de Dados
 			if ($_FILES['Imagem']['size'] == 0) { // Não recebeu uma imagem binária
-				$sql = "UPDATE Medico SET Nome = '$nome', CRM = '$CRM', Dt_Nasc = '$dtNasc' WHERE ID_Medico = $id";
+				$sql = "UPDATE Medico SET Nome = '$nome', CRM = '$CPF', Dt_Nasc = '$dtNasc' WHERE ID_Medico = $id";
 			}else{
 				$imagem = addslashes(file_get_contents($_FILES['Imagem']['tmp_name'])); // Prepara para salvar em BD
-				$sql = "UPDATE Medico SET Nome = '$nome', CRM = '$CRM', Dt_Nasc = '$dtNasc', Foto = '$imagem' WHERE ID_Medico = $id";	
+				$sql = "UPDATE Medico SET Nome = '$nome', CRM = '$CPF', Dt_Nasc = '$dtNasc', Foto = '$imagem' WHERE ID_Medico = $id";	
 			}
 
 			echo "<div class='w3-responsive w3-card-4'>";

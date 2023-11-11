@@ -23,3 +23,7 @@
     width: 20%;
     height: auto;
 }
+
+.centerPhoto{
+    vertical-align: center;
+}

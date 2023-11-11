@@ -1,4 +1,4 @@
 <?php
-    $url = "Location: /ClinicaA/medListar.php";	// Monta página para redirecionamento
+    $url = "Location: /Psychoduck/alunolistar.php";	// Monta página para redirecionamento
     header($url);
 ?>

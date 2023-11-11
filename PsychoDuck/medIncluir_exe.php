@@ -40,9 +40,9 @@
 	<!-- Acesso ao BD-->
 	<?php
 		$nome    = $_POST['Nome'];
-		$CRM     = $_POST['CRM'];
+		$CPF     = $_POST['CRM'];
 		$dtNasc  = $_POST['DataNasc'];
-		$espec   = $_POST['Especialidade'];
+		$email   = $_POST['Especialidade'];
 		
 		
 		 
@@ -62,10 +62,10 @@
 		// Faz Select na Base de Dados
 
 		if ($_FILES['Imagem']['size'] == 0) { // Não recebeu uma imagem binária
-			$sql = "INSERT INTO Medico (Nome, CRM, Dt_Nasc, ID_Espec, Foto) VALUES ('$nome','$CRM','$dtNasc', '$espec', NULL)";
+			$sql = "INSERT INTO Medico (Nome, CRM, Dt_Nasc, ID_Espec, Foto) VALUES ('$nome','$CPF','$dtNasc', '$email', NULL)";
 		} else {                              // Recebeu uma imagem binária
 			$imagem = addslashes(file_get_contents($_FILES['Imagem']['tmp_name'])); // Prepara para salvar em BD
-			$sql = "INSERT INTO Medico (Nome, CRM, Dt_Nasc, ID_Espec, Foto) VALUES ('$nome','$CRM','$dtNasc', '$espec','$imagem')";
+			$sql = "INSERT INTO Medico (Nome, CRM, Dt_Nasc, ID_Espec, Foto) VALUES ('$nome','$CPF','$dtNasc', '$email','$imagem')";
 		}
 		?>
 		<div class='w3-responsive w3-card-4'>

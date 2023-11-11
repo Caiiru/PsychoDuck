@@ -38,9 +38,13 @@
 		<div id="menuMedico" class="myMenu">
 			<div class="w3-container">
 				<h3>Menu Médicos</h3>
-			</div>
-			<a class="w3-bar-item w3-button" href="medListar.php">Relação de Médicos</a>
-			<a class="w3-bar-item w3-button" href="medIncluir.php">Cadastro de Médicos</a>
+			</div> 
+			<a class="w3-bar-item w3-button" href="alunolistar.php">Lista de Alunos</a>
+			<a class="w3-bar-item w3-button" href="cadastroAluno.php">Cadastro de Aluno</a>
+			<a class="w3-bar-item w3-button" href="psicologolistar.php">Lista de Psicologos</a>
+			<a class="w3-bar-item w3-button" href="cadastroPsicologo.php">Cadastro de Psicologo</a>
+			<a class="w3-bar-item w3-button" href="professorlistar.php">Lista de Professores</a>
+			<a class="w3-bar-item w3-button" href="cadastroProfessor.php">Cadastro de Professor</a>
 
 
 		</div>
