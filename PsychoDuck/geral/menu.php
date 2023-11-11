@@ -19,7 +19,7 @@
 		</div>
 		<div class="w3-bar w3-theme w3-large" style="z-index:-1">
 			<a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-light-gray w3-large w3-theme w3-padding-16" href="javascript:void(0)" onclick="w3_open()">☰</a>
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-small w3-hover-light-gray w3-padding-16" href="medListar.php" onclick="w3_show_nav('menuMedico')">Médico</a>
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-small w3-hover-light-gray w3-padding-16" href="alunolistar.php" onclick="w3_show_nav('menuMedico')">Listar</a>
 		</div>
 	</div>
 
@@ -37,7 +37,7 @@
 		   title="Close Menu">x</a>
 		<div id="menuMedico" class="myMenu">
 			<div class="w3-container">
-				<h3>Menu Médicos</h3>
+				<h3>Menu</h3>
 			</div> 
 			<a class="w3-bar-item w3-button" href="alunolistar.php">Lista de Alunos</a>
 			<a class="w3-bar-item w3-button" href="cadastroAluno.php">Cadastro de Aluno</a>

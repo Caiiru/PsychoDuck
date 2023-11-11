@@ -168,7 +168,8 @@
 									<tr>
 										<td style="width:50%">
 											<p>
-												<label for="selectedUserType" class="w3-text-IE"><b>Professor</b></label>
+												<label for="selectedUserType"
+													class="w3-text-IE"><b>Professor</b></label>
 											</p>
 											<p>
 												<label class="w3-text-IE"><b>Nome</b></label>
@@ -255,9 +256,11 @@
 												<input class="w3-input w3-border w3-light-grey" name="DataNasc"
 													type="date" placeholder="dd/mm/aaaa" title="dd/mm/aaaa" </p>
 											</p>
-											<label for="CIP">CIP</label>
-											<input class="w3-input w3-border w3-light-grey" type="number" name="CIP"
-												placeholder="XXXXXXXXXX">
+											<p>
+												<label for="CIP">CIP</label>
+												<input class="w3-input w3-border w3-light-grey" type="number" name="CIP"
+													placeholder="XXXXXXXXXX">
+											</p>
 											<p>
 												<label class="w3-text-IE" for="espec"><b>Especialização</b></label>
 												<select name="Especialidade" id="Especialidade"
