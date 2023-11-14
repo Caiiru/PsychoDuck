@@ -10,7 +10,7 @@
 <html>
 	<head>
 
-	  <title>Clínica Médica ABC</title>
+	  <title>Psychoduck</title>
 	  <link rel="icon" type="image/png" href="imagens/favicon.png" />
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -38,7 +38,7 @@
 	echo "</p> "
 	?>
 	<div class="w3-container w3-theme">
-	<h2>Exclusão de Médico</h2>
+	<h2>Exclusão de Aluno</h2>
 	</div>
 
 	<!-- Acesso ao BD-->
@@ -48,7 +48,7 @@
 		$conn = mysqli_connect($servername, $username, $password, $database);
 
 		// ID do registro a ser excluído
-		$id = $_POST['Id'];
+		$matricula = $_POST['Id'];
 
 		// Verifica conexão
 		if (!$conn) {
@@ -56,10 +56,12 @@
 		}
 
 		// Faz DELETE na Base de Dados
-		$sql = "DELETE FROM Medico WHERE ID_Medico = $id";
+		$sql = "DELETE FROM Aluno WHERE FK_USUARIO_ID = $matricula";
 
 		echo "<div class='w3-responsive w3-card-4'>";
 		if ($result = mysqli_query($conn, $sql)) {
+			$sqlu = "DELETE FROM USUARIO WHERE ID = $matricula";
+			$conn->query($sqlu);
 			echo "<p>&nbsp;Registro excluído com sucesso! </p>";
 		} else {
 			echo "<p>&nbsp;Erro executando DELETE: " . mysqli_error($conn . "</p>");

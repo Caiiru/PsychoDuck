@@ -5,14 +5,14 @@
 	Profa. Cristina V. P. B. Souza
 	Agosto/2022
 ---------------------------------------------------------------------------------->
-<!-- medIncluir.php -->
+
 
 <html>
 
 <head>
 
 	<title>Psychoduck</title>
-	<link rel="icon" type="image/png" href="imagens/favicon.png" />
+	<link rel="icon" type="../image/png" href="imagens/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
@@ -59,80 +59,83 @@
 				mysqli_query($conn, 'SET character_set_results=utf8');
 
 				// Faz Select na Base de Dados
-				$sqlG = "SELECT ID_Curso, Nome_Curso FROM Curso";
+				$sqlG = "SELECT P.fk_Usuario_ID as ID_Psicologo, ID_Consulta as ID, UP.Nome as Nome_Psicologo, UA.Nome as Aluno_Nome, DATE_FORMAT(DT_Consulta, '%d/%m/%Y ')  as Data_Consulta, Observacao FROM CONSULTA as C INNER JOIN Aluno as A 
+				INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
+				INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
+				WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula";
 
-				$optionsEspec = array();
-
-				if ($result = mysqli_query($conn, $sqlG)) {
+				$sqlPsicologo = "SELECT Nome as Nome_Psicologo,CIP ,ID as ID_Psicologo FROM Usuario as U INNER JOIN Psicologo as P ON(P.fk_Usuario_ID = U.ID)";
+				$sqlAluno = "SELECT Nome as Nome_Aluno, ID as ID_Aluno FROM USUARIO AS U INNER JOIN Aluno AS A ON (A.FK_USUARIO_ID = U.ID)";
+				$psicologoOptions = array();
+				$alunoOptions = array();
+				//Selecionar Psicologo
+				if ($result = mysqli_query($conn, $sqlPsicologo)) {
 					while ($row = mysqli_fetch_assoc($result)) {
-						array_push($optionsEspec, "\t\t\t<option value='" . $row["ID_Curso"] . "'>" . $row["Nome_Curso"] . "</option>\n");
+						array_push($psicologoOptions, "\t\t\t<option value='" . $row["CIP"] . "'>" . $row["Nome_Psicologo"] . "</option>\n");
 					}
 				}
+				if ($result = mysqli_query($conn, $sqlAluno)) {
+					while ($row = mysqli_fetch_assoc($result)) {
+						array_push($alunoOptions, "\t\t\t<option value='" . $row["ID_Aluno"] . "'>" . $row["Nome_Aluno"] . "</option>\n");
+					}
+				}
+
 
 				?>
 
 				<div class="w3-responsive w3-card-4">
 					<div class="w3-container w3-theme">
-						<h2>Informe os dados do novo Aluno</h2>
+						<h2>Informe os dados da Consulta</h2>
 					</div>
-					<form class="w3-container" action="cadastroProfessor_exe.php" method="post"
+					<form class="w3-container" action="cadastroConsulta_exe.php" method="post"
 						enctype="multipart/form-data">
 						<table class='w3-table-all'>
 							<tr>
 								<td style="width:50%;">
-									<p>
-										<label class="w3-text-IE"><b>Nome</b>*</label>
-										<input class="w3-input w3-border w3-light-grey" name="Nome" type="text"
-											pattern="[a-zA-Z\u00C0-\u00FF ]{10,100}$"
-											title="Nome entre 10 e 100 letras." required>
-									</p>
-									<p>
-									<p>
-										<label class="w3-text-IE"><b>Email</b></label>
-										<input class="w3-input w3-border w3-light-grey" name="Email" type="email"
-											placeholder="email@email.com">
-									</p>
-									<p>
-										<label class="w3-text-IE"><b>CPF</b>*</label>
-										<input class="w3-input w3-border w3-light-grey " name="CPF" id="CPF" type="text"
-											maxlength="11" placeholder="CPF XXXXXXXXXXX" title="CPF XXXXXXXXXXX"
-											required>
-									</p>
-									<p>
-										<label class="w3-text-IE"><b>Data de Nascimento</b></label>
-										<input class="w3-input w3-border w3-light-grey" name="DataNasc" type="date"
-											placeholder="dd/mm/aaaa" title="dd/mm/aaaa" </p>
-									</p>
-									<p><label class="w3-text-IE"><b>Curso</b>*</label>
-										<select name="Curso" id="Curso" class="w3-input w3-border w3-light-grey"
+									<p><label class="w3-text-IE"><b>Psicologo</b>*</label>
+										<select name="Psicologo" id="Psicologo" class="w3-input w3-border w3-light-grey"
 											required>
 											<option value=""></option>
 											<?php
-											foreach ($optionsEspec as $key => $value) {
+											foreach ($psicologoOptions as $key => $value) {
 												echo $value;
 											}
 											?>
 										</select>
 									</p>
+									<p><label class="w3-text-IE"><b>Aluno</b>*</label>
+										<select name="Aluno" id="Aluno" class="w3-input w3-border w3-light-grey"
+											required>
+											<option value=""></option>
+											<?php
+											foreach ($alunoOptions as $key => $value) {
+												echo $value;
+											}
+											?>
+										</select>
+									</p>
+									<p>
+										<label class="w3-text-IE"><b>Data da Consulta</b></label>
+										<input class="w3-input w3-border w3-light-grey" name="DT_Consulta" type="date"
+											placeholder="dd/mm/aaaa" title="dd/mm/aaaa" </p>
+									</p>
+
 								</td>
 								<td>
-									<p style="text-align:center"><label class="w3-text-IE"><b>Minha Imagem para
-												Identificação: </b></label></p>
-									<p style="text-align:center"><img id="imagemSelecionada" src="imagens/pessoa.jpg" />
-									</p>
-									<p style="text-align:center"><label class="w3-btn w3-theme">Selecione uma Imagem
-											<input type="hidden" name="MAX_FILE_SIZE" value="16777215" />
-											<input type="file" id="Imagem" name="Imagem" accept="imagem/*"
-												onchange="validaImagem(this);"></label>
+									<p>
+										<label class="w3-text-IE"><b>Observação</b>*</label>
+										<textarea id='Observacao' name='Observacao'
+											class="w3-input w3-border w3-light-grey" required> </textarea>
 									</p>
 								</td>
+
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align:center">
 									<p>
 										<input type="submit" value="Salvar" class="w3-btn w3-theme">
 										<input type="button" value="Cancelar" class="w3-btn w3-theme"
-											onclick="window.location.href='alunoListar.php'">
+											onclick="window.location.href='listarConsulta.php'">
 									</p>
 								</td>
 							</tr>
@@ -144,7 +147,7 @@
 			</p>
 		</div>
 
-		<?php require 'geral/sobre.php'; ?>
+		<?php require 'geral\sobre.php'; ?>
 		<!-- FIM PRINCIPAL -->
 	</div>
 	<!-- Inclui RODAPE.PHP  -->

@@ -61,16 +61,17 @@
                 mysqli_query($conn,'SET character_set_results=utf8');
 
                 // Faz Select na Base de Dados
-                $sql = "SELECT Matricula,Nome,CPF, Nome_Curso as Curso, DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, Foto FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso)";
+                $sql = "SELECT Matricula,Nome,CPF,NotaMedia, Nome_Curso as Curso, DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, Foto FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso)";
                 echo "<div class='w3-responsive w3-card-4'>";
                 if ($result = mysqli_query($conn, $sql)) {
                     echo "<table class='w3-table-all'>";
                     echo "	<tr>";
                     echo "	  <th width='7%'>Matricula</th>";
-                    echo "	  <th width='14%'>CPF</th>";
-                    echo "	  <th width='14%'>Imagem</th>";
                     echo "	  <th width='18%'>Nome Aluno</th>";
+                    echo "	  <th width='14%'>CPF</th>";
+                    echo "	  <th width='14%'>Imagem</th>"; 
                     echo "	  <th width='15%'>Curso</th>"; 
+                    echo "	  <th width='15%'>Notas</th>"; 
                     echo "	  <th width='15%'>Data de Inicio</th>"; 
                     echo "	  <th width='7%'> </th>";
                     echo "	  <th width='7%'> </th>";
@@ -84,6 +85,8 @@
                             echo "<td>";
                             echo $cod;
                             echo "</td><td>";
+                            echo $row["Nome"];
+                            echo "</td><td>";
                             echo $row["CPF"];
                             if ($row['Foto']) {?>
                                 <td>
@@ -96,18 +99,18 @@
                                     <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="imagens/pessoa.jpg" />
                                 </td><td>
                                 <?php
-                            }
-                            echo $row["Nome"];
-                            echo "</td><td>";
+                            } 
                             echo $row["Curso"];
+                            echo "</td><td>";
+                            echo $row["NotaMedia"];
                             echo "</td><td>";
                             echo $row["Data_Inicio"];
                             echo "</td><td>";
                             //Atualizar e Excluir registro de médicos
             ?>              <td>       
-                            <a href='medAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Médico' width='32'></a>
+                            <a href='alunoAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Aluno' width='32'></a>
                             </td><td>
-                            <a href='medExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Médico' width='32'></a>
+                            <a href='alunoExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Aluno' width='32'></a>
                             </td>
                             </tr>
             <?php

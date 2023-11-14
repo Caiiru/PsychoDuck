@@ -43,7 +43,7 @@
 				<?php
 				$nome = $_POST['Nome'];
 				$CPF = $_POST['CPF'];
-				$dtNasc = $_POST['DataNasc'];
+				$dataConsulta = $_POST['DataNasc'];
 				$email = $_POST['Email'];
 
 
@@ -62,10 +62,10 @@
 
 				// Faz Select na Base de Dados
 				if ($_FILES['Imagem']['size'] == 0) { // Não recebeu uma imagem binária
-					$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento,Foto) VALUES('$nome','$CPF','$email','$dtNasc',NULL)";
+					$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento,Foto) VALUES('$nome','$CPF','$email','$dataConsulta',NULL)";
 				} else { // Recebeu uma imagem binária
 					$imagem = addslashes(file_get_contents($_FILES['Imagem']['tmp_name'])); // Prepara para salvar em BD
-					$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento,Foto) VALUES('$nome','$CPF','$email','$dtNasc',$imagem)";
+					$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento,Foto) VALUES('$nome','$CPF','$email','$dataConsulta',$imagem)";
 				}
 				$conn->query($sql);
 				$lastUserID = $conn->insert_id;

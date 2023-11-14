@@ -41,13 +41,11 @@
 
 				<!-- Acesso ao BD-->
 				<?php
-				$userType = $_POST["selectedUserType"];
-				$nome = $_POST['Nome'];
-				$CPF = $_POST['CPF'];
-				$dataConsulta = $_POST['DataNasc'];
-				$email = $_POST['Email'];
+				$ID = $_POST['Psicologo'];
+				$Aluno = $_POST['Aluno'];
+				$dataConsulta = $_POST['DT_Consulta'];
+				$Observacao = $_POST['Observacao'];
 
-				echo $userType," ", $nome," ", $email," ", $CPF," ", $dataConsulta;
 
 				// Cria conexão
 				$conn = mysqli_connect($servername, $username, $password, $database);
@@ -62,50 +60,16 @@
 				mysqli_query($conn, 'SET character_set_client=utf8');
 				mysqli_query($conn, 'SET character_set_results=utf8');
 
-				// Faz Select na Base de Dados
-				
-				$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento) VALUES('$nome','$CPF','$email','$dataConsulta')";
-
-				$conn->query($sql);
+				$sql = "INSERT INTO Consulta(fk_Psicologo_CIP, fk_Aluno_Matricula,DT_Consulta,Observacao) 
+					values('$ID', '$Aluno', '$dataConsulta', '$Observacao')";
+				//$conn->query($sql);
 				$lastUserID = $conn->insert_id;
 
-				switch ($userType) {
-					case 'Aluno':
-						$curso = $_POST['Curso'];
-						$dataInicio = $_POST['DTInicio'];
-						$notaMedia = $_POST['notaMedia'];
-						$faltaTotal = $_POST['faltaTotal'];
-
-
-						if ($_FILES['Imagem']['size'] == 0) { // Não recebeu uma imagem binária
-							$sql = "INSERT INTO Aluno(fk_Usuario_ID, fk_Curso_ID_Curso,DT_Inicio, NotaMedia, QTD_Faltas)
-							VALUES('$lastUserID','$curso','$dataInicio','$notaMedia','$faltaTotal',NULL)";
-						} else { // Recebeu uma imagem binária
-							$imagem = addslashes(file_get_contents($_FILES['Imagem']['tmp_name'])); // Prepara para salvar em BD
-							$sql = $sql = "INSERT INTO Aluno(fk_Usuario_ID, fk_Curso_ID_Curso,DT_Inicio, NotaMedia, QTD_Faltas)
-								VALUES('$lastUserID','$curso','$dataInicio','$notaMedia','$faltaTotal',$imagem)";
-						}
-						$conn->query($sql);
-						break;
-
-					case 'Professor':
-						$matricula = $_POST['matriculaProfessor'];
-
-						$sql = "INSERT INTO Professor(Matricula, fk_Usuario_ID)
-					VALUES('$matricula','$lastUserID')";
-						break;
-
-					case 'Psicologo':
-						$CIP = $_POST['CIP'];
-
-						$sql = "INSERT INTO Psicologo(CIP,fk_Usuario_ID,fk_Especialidade_ID)
-							VALUES('$CIP','$lastUserID','$espec')";
-				}
-
+								
 				?>
 				<div class='w3-responsive w3-card-4'>
 					<div class="w3-container w3-theme">
-						<h2>Inclusão de Novo Psicologo</h2>
+						<h2>Inclusão de Nova Consulta</h2>
 					</div>
 					<?php
 					if ($result = mysqli_query($conn, $sql)) {

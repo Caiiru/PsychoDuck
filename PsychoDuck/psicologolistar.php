@@ -102,9 +102,9 @@
                             echo "</td><td>";
                             //Atualizar e Excluir registro de médicos
             ?>              <td>       
-                            <a href='medAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Médico' width='32'></a>
+                            <a href='psicologoAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Médico' width='32'></a>
                             </td><td>
-                            <a href='medExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Médico' width='32'></a>
+                            <a href='psicologoExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Médico' width='32'></a>
                             </td>
                             </tr>
             <?php

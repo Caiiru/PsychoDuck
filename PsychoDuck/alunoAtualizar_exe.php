@@ -5,12 +5,11 @@
 	Profa. Cristina V. P. B. Souza
 	Agosto/2022
 ---------------------------------------------------------------------------------->
-<!-- medIncluir_exe.php -->
+<!-- medAtualizar.php -->
 
 <html>
 
 <head>
-
 	<title>Psychoduck</title>
 	<link rel="icon" type="image/png" href="imagens/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,10 +21,12 @@
 	<!-- Inclui MENU.PHP  -->
 	<?php require 'geral/menu.php'; ?>
 	<?php require 'bd/conectaBD.php'; ?>
+
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
 	<div class="w3-main w3-container" style="margin-left:270px;margin-top:117px;">
 
 		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
+
 			<p class="w3-large">
 			<div class="w3-code cssHigh notranslate">
 				<!-- Acesso em:-->
@@ -38,13 +39,21 @@
 				echo $data;
 				echo "</p> "
 					?>
+				<div class="w3-container w3-theme">
+					<h2>Atualização de Usuario</h2>
+				</div>
 				<!-- Acesso ao BD-->
 				<?php
+				// Recebe os dados que foram preenchidos no formulário, com os valores que serão atualizados
+				 // identifica o registro a ser alterado
+				$id = $_POST['ID'];
 				$nome = $_POST['Nome'];
 				$CPF = $_POST['CPF'];
-				$dataConsulta = $_POST['DataNasc'];
-				$email = $_POST['Email']; 
-
+				$Email = $_POST['Email'];
+				$dataConsulta = $_POST['DT_Nascimento']; 
+				$NotaMedia = $_POST["NotaMedia"];
+				$dataInicio = $_POST['dtInicio'];
+				$QTD_FALTAS = $_POST['QTD_Faltas'];
 				// Cria conexão
 				$conn = mysqli_connect($servername, $username, $password, $database);
 
@@ -52,54 +61,53 @@
 				if (!$conn) {
 					die("<strong> Falha de conexão: </strong>" . mysqli_connect_error());
 				}
+
 				// Configura para trabalhar com caracteres acentuados do português
 				mysqli_query($conn, "SET NAMES 'utf8'");
 				mysqli_query($conn, 'SET character_set_connection=utf8');
 				mysqli_query($conn, 'SET character_set_client=utf8');
 				mysqli_query($conn, 'SET character_set_results=utf8');
-
-				// Faz Select na Base de Dados
-				if ($_FILES['Imagem']['size'] == 0) { // Não recebeu uma imagem binária
-					$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento,Foto) VALUES('$nome','$CPF','$email','$dataConsulta',NULL)";
-				} else { // Recebeu uma imagem binária
-					$imagem = addslashes(file_get_contents($_FILES['Imagem']['tmp_name'])); // Prepara para salvar em BD
-					$sql = "INSERT INTO Usuario(Nome,CPF,Email,DT_Nascimento,Foto) VALUES('$nome','$CPF','$email','$dataConsulta','$imagem')";
-				}
-				$conn->query($sql);
-				$lastUserID = $conn->insert_id;
-
-				$curso = $_POST['Curso'];
-				$dataInicio = $_POST['DTInicio'];
-				$notaMedia = $_POST['notaMedia'];
-				$faltaTotal = $_POST['faltaTotal'];
-
-				$sqlu = "INSERT INTO Aluno(fk_Usuario_ID, fk_Curso_ID_Curso,DT_Inicio, NotaMedia, QTD_Faltas)
-							VALUES('$lastUserID','$curso','$dataInicio','$notaMedia','$faltaTotal')";
-
-				//$conn->query($sqlu);
-								
 				?>
-				<div class='w3-responsive w3-card-4'>
-					<div class="w3-container w3-theme">
-						<h2>Inclusão de Novo Aluno</h2>
-					</div>
-					<?php
-					if ($result = mysqli_query($conn, $sqlu)) {
-						echo "<p>&nbsp;Registro cadastrado com sucesso! </p>";
-					} else {
-						echo "<p>&nbsp;Erro executando INSERT: " . mysqli_error($conn . "</p>");
-					}
-					echo "</div>";
-					mysqli_close($conn); //Encerra conexao com o BD
-					
-					?>
-				</div>
+
+				<?php
+
+				// Faz Update na Base de Dados
+				if ($_FILES['Imagem']['size'] == 0) { // Não recebeu uma imagem binária
+					$sqlUsuario = "UPDATE Usuario SET Nome = '$nome', Email ='$Email', CPF='$CPF', 
+						DT_Nascimento = '$dataConsulta'
+					where id = '$id'";
+
+				} else {
+					$imagem = addslashes(file_get_contents($_FILES['Imagem']['tmp_name'])); // Prepara para salvar em BD
+					$sqlUsuario = "UPDATE Usuario SET Nome = '$nome', Email ='$Email', CPF='$CPF', 
+						DT_Nascimento = '$dataConsulta', Foto = '$imagem'
+					where id = '$id'";
+				}
+				
+				$sqlAluno = "UPDATE Aluno SET DT_Inicio = '$dataInicio',NotaMedia='$NotaMedia', QTD_FALTAS='$QTD_FALTAS'
+				WHERE fk_Usuario_ID = '$id'";
+				 
+				
+
+				echo "<div class='w3-responsive w3-card-4'>";
+				if ($result = mysqli_query($conn, $sqlUsuario)) {
+					$conn -> query($sqlAluno);
+					echo "<p>&nbsp;Registro alterado com sucesso! </p>";
+				} else {
+					echo "<p>&nbsp;Erro executando UPDATE: " . mysqli_error($conn) . "</p>";
+				}
+				echo "</div>";
+				mysqli_close($conn); //Encerra conexao com o BD
+				
+				?>
 			</div>
-			<?php require 'geral/sobre.php'; ?>
-			<!-- FIM PRINCIPAL -->
 		</div>
-		<!-- Inclui RODAPE.PHP  -->
-		<?php require 'geral/rodape.php'; ?>
+
+		<?php require 'geral/sobre.php'; ?>
+		<!-- FIM PRINCIPAL -->
+	</div>
+	<!-- Inclui RODAPE.PHP  -->
+	<?php require 'geral/rodape.php'; ?>
 
 </body>
 

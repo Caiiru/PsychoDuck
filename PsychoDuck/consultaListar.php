@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <title>Clínica Médica ABC</title>
+    <title>Psychoduck</title>
     <link rel="icon" type="image/png" href="imagens/favicon.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -38,7 +38,7 @@
                 echo "</p> "
             ?>
             <div class="w3-container w3-theme">
-			<h2>Listagem de Medicos</h2>
+			<h2>Listagem de Consultas</h2>
 			</div>
 
             <!-- Acesso ao BD-->
@@ -61,64 +61,49 @@
                 mysqli_query($conn,'SET character_set_results=utf8');
 
                 // Faz Select na Base de Dados
-                $sql = "SELECT ID_Medico, CRM, Nome, Nome_Espec AS Especialidade, Foto, Dt_Nasc FROM Medico AS M INNER JOIN Especialidade AS E ON (M.ID_Espec = E.ID_Espec)";
+                $sql = "SELECT P.FK_Usuario_ID as ID_Psicologo,CIP, ID_Consulta as ID, UP.Nome as Psicologo_Name, UA.Nome as Aluno_Nome, DATE_FORMAT(DT_Consulta, '%d/%m/%Y') as Data_Consulta, Observacao FROM CONSULTA as C INNER JOIN Aluno as A 
+                INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
+                INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
+                WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula";
+
+
                 echo "<div class='w3-responsive w3-card-4'>";
                 if ($result = mysqli_query($conn, $sql)) {
                     echo "<table class='w3-table-all'>";
                     echo "	<tr>";
-                    echo "	  <th width='7%'>Código</th>";
-                    echo "	  <th width='14%'>CRM</th>";
-                    echo "	  <th width='14%'>Imagem</th>";
-                    echo "	  <th width='18%'>Médico</th>";
-                    echo "	  <th width='15%'>Especialidade</th>";
-                    echo "	  <th width='10%'>Nascimento</th>";
-                    echo "	  <th width='8%'>Idade</th>";
+                    echo "	  <th width='7%'>ID</th>";
+                    echo "	  <th width='14%'>Psicologo</th>";
+                    echo "	  <th width='14%'>CIP</th>";
+                    echo "	  <th width='14%'>Aluno</th>";
+                    echo "	  <th width='18%'>Data</th>";
+                    echo "	  <th width='15%'>Observação</th>"; 
                     echo "	  <th width='7%'> </th>";
                     echo "	  <th width='7%'> </th>";
                     echo "	</tr>";
                     if (mysqli_num_rows($result) > 0) {
                         // Apresenta cada linha da tabela
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $data = $row['Dt_Nasc'];
-                            list($ano, $mes, $dia) = explode('-', $data);
-                            $nova_data = $dia . '/' . $mes . '/' . $ano;
-                            // data atual
-                            $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-                            // Descobre a unix timestamp da data de nascimento do fulano
-                            $nascimento = mktime( 0, 0, 0, $mes, $dia, $ano);
-                            // cálculo
-                            $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
-                            $cod = $row["ID_Medico"];
-                            echo "<tr>";
+                           
+                            $cod = $row["ID"];
                             echo "<td>";
                             echo $cod;
                             echo "</td><td>";
-                            echo $row["CRM"];
-                            if ($row['Foto']) {?>
-                                <td>
-                                    <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="data:image/png;base64,<?= base64_encode($row['Foto']) ?>" />
-                                </td><td>
-                                <?php
-                            } else {
-                                ?>
-                                <td>
-                                    <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="imagens/pessoa.jpg" />
-                                </td><td>
-                                <?php
-                            }
-                            echo $row["Nome"];
+                            echo $row["Psicologo_Name"]; 
                             echo "</td><td>";
-                            echo $row["Especialidade"];
+                            echo $row["CIP"];
                             echo "</td><td>";
-                            echo $nova_data;
+                            echo $row["Aluno_Nome"];
+                            echo "</td><td>"; 
+                            echo $row["Data_Consulta"];
                             echo "</td><td>";
-                            echo $idade;
-                            echo "</td>";
+                            echo $row["Observacao"];
+                            echo "</td><td>"; 
+                             
                             //Atualizar e Excluir registro de médicos
             ?>              <td>       
-                            <a href='medAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Médico' width='32'></a>
+                            <a href='consultaAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Consulta' width='32'></a>
                             </td><td>
-                            <a href='medExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Médico' width='32'></a>
+                            <a href='consultaExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Consulta' width='32'></a>
                             </td>
                             </tr>
             <?php

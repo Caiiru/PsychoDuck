@@ -38,7 +38,7 @@
                 echo "</p> "
             ?>
             <div class="w3-container w3-theme">
-			<h2>Listagem de Alunos</h2>
+			<h2>Listagem de Professores</h2>
 			</div>
 
             <!-- Acesso ao BD-->
@@ -103,9 +103,9 @@
                             echo "</td><td>"; 
                             //Atualizar e Excluir registro de médicos
             ?>              <td>       
-                            <a href='medAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Médico' width='32'></a>
+                            <a href='professorAtualizar.php?id=<?php echo $cod; ?>'><img src='imagens/Edit.png' title='Editar Professor' width='32'></a>
                             </td><td>
-                            <a href='medExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Médico' width='32'></a>
+                            <a href='professorExcluir.php?id=<?php echo $cod; ?>'><img src='imagens/Delete.png' title='Excluir Professor' width='32'></a>
                             </td>
                             </tr>
             <?php
