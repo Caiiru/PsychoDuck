@@ -40,7 +40,7 @@ CREATE TABLE Aluno (
 CREATE TABLE Psicologo (
     CIP VARCHAR(20) PRIMARY KEY,
     fk_Usuario_ID INT,
-    fk_Especialidade_ID INT
+    fk_Especialidade_ID INT DEFAULT NULL
 );
 
 CREATE TABLE Materia (
@@ -64,15 +64,6 @@ CREATE TABLE Especialidade (
     Descricao_Espec VARCHAR(300)
 );
 
-CREATE TABLE Possui (
-    fk_Curso_ID_Curso INT,
-    fk_Materia_ID INT
-);
-
-CREATE TABLE Assiste (
-    fk_Aula_Professor_Materia_ID_Aula INT,
-    fk_Aluno_Matricula INT
-);
 
 CREATE TABLE Consulta (
     fk_Psicologo_CIP VARCHAR(20),
@@ -111,34 +102,9 @@ ALTER TABLE Psicologo ADD CONSTRAINT FK_Psicologo_3
     FOREIGN KEY (fk_Especialidade_ID)
     REFERENCES Especialidade(ID_Espec)
     ON DELETE SET NULL;
+
+  
  
-ALTER TABLE Aula_Professor_Materia ADD CONSTRAINT FK_Aula_Professor_Materia_2
-    FOREIGN KEY (fk_Professor_Matricula)
-    REFERENCES Professor (Matricula);
- 
-ALTER TABLE Aula_Professor_Materia ADD CONSTRAINT FK_Aula_Professor_Materia_3
-    FOREIGN KEY (fk_Materia_ID)
-    REFERENCES Materia (ID);
- 
-ALTER TABLE Possui ADD CONSTRAINT FK_Possui_1
-    FOREIGN KEY (fk_Curso_ID_Curso)
-    REFERENCES Curso (ID_Curso)
-    ON DELETE RESTRICT;
- 
-ALTER TABLE Possui ADD CONSTRAINT FK_Possui_2
-    FOREIGN KEY (fk_Materia_ID)
-    REFERENCES Materia(ID)
-    ON DELETE RESTRICT;
- 
-ALTER TABLE Assiste ADD CONSTRAINT FK_Assiste_1
-    FOREIGN KEY (fk_Aula_Professor_Materia_ID_Aula)
-    REFERENCES Aula_Professor_Materia (ID_Aula)
-    ON DELETE SET NULL;
- 
-ALTER TABLE Assiste ADD CONSTRAINT FK_Assiste_2
-    FOREIGN KEY (fk_Aluno_Matricula)
-    REFERENCES Aluno (Matricula)
-    ON DELETE SET NULL;
  
 ALTER TABLE Consulta ADD CONSTRAINT FK_Consulta_2
     FOREIGN KEY (fk_Psicologo_CIP)
@@ -151,127 +117,92 @@ ALTER TABLE Consulta ADD CONSTRAINT FK_Consulta_3
     ON DELETE SET NULL;
     
 INSERT INTO USUARIO(Nome, CPF, Email, DT_Nascimento)
-VALUES("Jorge Flores", "11133399920", "jorgeflores@email.com", "2000-02-05"),
-("Agnis Barbosa", "33145102312", "Ignisbarbosa@email.com", "1999-10-24"),
-("Marcos Douglas", "4415213566", "marquinhosdagalera@email.com","1978-07-19"),
-("Tonia Tilapia", "512371231231", "t.tonia@email.com","1994-01-07"),
-("Jessica Rosa", "13151516123", "jepsicologa@email.com","1992-12-23"),
-("Guilherme Santos", "204051231233","gui@email.com","1989-03-28");
+VALUES("Jorge de Morais", "11133399920", "jorgeflores@email.com", "2000-02-05"),
+("Agnis Barbosa", "63233987021", "Ignisbarbosa@email.com", "1999-10-24"),
+("Marcos Douglas", "28463441084", "marquinhosdagalera@email.com","1978-07-19"),
+("Tonia Tilapia", "42748907086", "t.tonia@email.com","1994-01-07"),
+("Jessica Rosa", "78950935090", "jepsicologa@email.com","1992-12-23"),
+("Guilherme Santos", "56734379000","gui@email.com","1989-03-28"),
+("Otávio Correia", "52829372042", "otavio12@email.com","2001-11-23"),
+("Fabio Cavalcanti","26396930005", "fafa37_2309@email.com","1992-01-27"),
+("Sofia Cardoso", "33933152003", "sofi_business@email.com","1999-12-02"),
+("Victor Cavalcanti", "84451956030", "victor_cavalcanti@email.com", "1992-01-27"),
+("Gabrielle Melo", "89950555027", "gabrielle@email.com", "2002-06-29"),
+("Vitór Lima", "23269447043", "victinibestpokemon@email.com", "2004-09-18"),
+("Miguel Alves", "35384291036", "miguelalvescassiano@email.com", "2000-02-27"),
+("Mariana Barros", "31506354033", "marianacontato@email.com","1982-12-21"),
+("Arthur Goncalves", "21097077047", "coronelgoncalves@email.gov.br", "1976-11-11"),
+("Danilo Costa", "42267245000", "masterdan@email.com","1993-06-02"),
+("Lucas Silva", "91152606077", "silvalucas@email.com", "1989-07-14"),
+("Vinicius Melo", "24785359048", "viniyellow@email.com", "1999-01-13"),
+("Renan Lima", "43413503073", "Thiagorenan@email.com", "1983-10-29"),
+("Lara Barbosa", "39482920007", "larabarbosa0021@email.com","1995-06-22"),
+("Maria Sofia Santos", "80292435029", "mariasofiasantista@email.com","2005-04-27"),
+("Giovana Oliveira", "71920368035", "gioviskioliveira@email.com","1971-06-22"),
+("Laura Ferreira", "24257425067", "ferreilaura@email.com", "1989-11-07"),
+("Leila Pereira", "39974019001", "leilafernandes@email.com","1983-05-25"),
+("Melissa Rocha", "20988604043", "melissabarbosa@email.com","1992-03-02"),
+("Douglas Melo", "89533059001", "melocarsdouglas@email.coM","1990-01-27");
 
 INSERT INTO Curso(Nome_Curso,Duracao_anos)
 values("Engenharia de Software","4"),
 ("Culinaria", "4.5"),
 ("Arquitetura","5.5"),
 ("Marketing","2.5"),
-("Design de Moda","8");
+("Design de Moda","8"),
+("Administração", "4"),
+("Biomedicina","5"),
+("Ciencias Biologicas","6"),
+("Design de Produto","3.5"),
+("Engenharia Ambiental","5"),
+("Engenharia Elétrica","6"),
+("Farmacia","4"),
+("Fisioterapia","4"),
+("Medicina Veterinaria","8"),
+("Pedagogia","5"),
+("Turismo","3"),
+("Fisica","4.5");
+
 
 INSERT INTO ALUNO(fk_Usuario_ID, fk_Curso_ID_Curso,DT_Inicio,NotaMedia,QTD_Faltas)
 values(1,3,"2022-02-14",90,5),
-(2,4,"2023-02-18",60,10);
+(2,4,"2023-02-18",60,10),
+(7,8,"2021-06-17",85,30),
+(8,15,"2019-02-23",90,5),
+(9,17,"2016-06-18",56,45),
+(10,12,"2017-06-18",76,21),
+(11,5,"2019-02-18",97,15),
+(12,2,"2022-06-12",80,13),
+(13,10,"2023-06-18",100,2);
 
 INSERT INTO PROFESSOR(fk_Usuario_ID, fk_Curso_ID_Curso)
-values(3,1),(4,2);
+values(3,1),
+(4,2),
+(14,2),
+(15,10),
+(16,13),
+(17,6),
+(18,17),
+(19,7);
 
 INSERT INTO ESPECIALIDADE(NOME_ESPEC,DESCRICAO_ESPEC)
-values("Psicopedagogia","Atua na investigação e intervenção nos processos de aprendizagem de habilidades e conteúdos acadêmicos. "),
+values
+(" "," "),
+("Psicopedagogia","Atua na investigação e intervenção nos processos de aprendizagem de habilidades e conteúdos acadêmicos. "),
 ("Psicologia Social","Atua fundamentado na compreensão da dimensão subjetiva dos fenômenos sociais e coletivos, sob diferentes enfoques teóricos e metodológicos, com o objetivo de problematizar e propor ações no âmbito social."),
 ("Neuropsicologia","Atua no diagnóstico, no acompanhamento, no tratamento e na pesquisa da cognição, das emoções, da personalidade e do comportamento sob o enfoque da relação entre estes aspectos e o funcionamento cerebral. ");
 
 INSERT INTO PSICOLOGO (CIP,FK_USUARIO_ID,FK_ESPECIALIDADE_ID)
-values("213131221231",5,1),
-("13245516667",6,3);
+values("213131221231",5,2),
+("13245516667",6,3),
+("11118857020",20, 1),
+("05969067067",21,2),
+("39833688080",22,4),
+("38160204027",23,1),
+("22607860067",24,2),
+("75778950080",25,3),
+("19172884096", 26,2);
  
 
-INSERT INTO MATERIA (Nome,QTD_AULAS,TURNO)
-VALUES("Banco de Dados", 30, "Noite"),
-("Etica",45,"Manhã"),
-("Web Seguros", 25, "Tarde");
-    
-    
-INSERT INTO AULA_PROFESSOR_MATERIA(DT_AULA, OBSERVACAO, FK_PROFESSOR_MATRICULA,FK_MATERIA_ID)
-VALUES("2023-10-31 08:15:27", "Prova Formativa", 1,1);
-
-INSERT INTO ASSISTE
-values(1,1);
-
-insert into possui
-values(1,1),
-(1,2),
-(1,3);
- 
-SELECT ID, CIP,Nome,Nome_Espec as Especialidade, Foto FROM Psicologo as P INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID) inner join especialidade as E On (P.fk_Especialidade_Id = e.ID_Espec);
-select * from professor;
-select * from usuario;
-select * from aluno;
-
-/*SELECT PROFESSOR*/
-SELECT Matricula, Nome as Nome_Professor,CPF, Nome_Curso as Curso, Foto FROM Professor as P INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID) INNER JOIN Curso as C ON (P.fk_Curso_ID_Curso = C.ID_Curso);
-
-/*SELECT CURSO*/
-select ID_Curso as ID, Nome_Curso as Nome  from curso; 
-
-/*SELECT Aluno*/
-SELECT Matricula,CPF,Nome, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, DATE_FORMAT(DT_Nascimento,'%d/%m/%Y') as Data_Nascimento, Foto FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
-
-/*SELECT Psicologo*/
-SELECT ID,Nome as Nome_Psicologo, CIP, Nome_Espec as Especialidade, Foto FROM Usuario as U INNER JOIN Psicologo as P ON (P.fk_Usuario_ID = U.ID) INNER JOIN Especialidade AS E ON (P.fK_Especialidade_ID = E.ID_Espec);
-
-/*SELECT Especilidade*/
-SELECT ID_Espec as ID, Nome_Espec as Nome_Especialidade FROM Especialidade;
-
-SELECT * FROM USUARIO; 
-SELECT Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
-				DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, 
-				DATE_FORMAT(DT_Nascimento,'%d/%m/%Y') as Data_Nascimento, Foto 
-				FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) 
-				INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
-                
-SELECT Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
-				DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, 
-				DT_Nascimento as Data_Nascimento, Foto 
-				FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) 
-				INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
-
-                
-select * from Curso;
-
-UPDATE Usuario SET Nome = 'Jorgao'
-				WHERE ID = 1;
-                
-select * from usuario;
-
-SELECT * FROM professor;
-    
-
-SELECT fk_Usuario_ID as ID_Psicologo, U.Nome FROM PSICOLOGO as P INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID)
-	WHERE P.fk_Usuario_ID = U.ID; 
-
-SELECT Nome FROM PSICOLOGO as P Inner join Usuario as U ON (P.fk_Usuario_ID = U.ID) WHERE CIP = '13245516667';
-
-INSERT INTO Consulta(fk_Psicologo_CIP, fk_Aluno_Matricula, DT_Consulta) values('13245516667', 1, '2020-02-01');
-SELECT * FROM CONSULTA;
-
-SELECT Nome, ID as ID_Psicologo FROM Usuario as U INNER JOIN Psicologo as P ON(P.fk_Usuario_ID = U.ID);
-
- 
- SELECT ID_Consulta, fk_Psicologo_CIP, fk_Aluno_Matricula, DT_Consulta, Observacao, ID_Consulta FROM Consulta;
- 
-SELECT P.fk_Usuario_ID as ID_Psicologo, ID_Consulta as ID, CIP, UP.Nome as Nome_Psicologo, UA.ID as ID_Aluno, UA.Nome as Nome_Aluno, DT_Consulta, Observacao as Ob FROM CONSULTA as C INNER JOIN Aluno as A 
-					INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
-					INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
-					WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula;
-                    
-SELECT ID_Consulta as ID, UP.Nome as Psicologo_Nome, CIP, UA.Nome as Nome_Aluno, DT_Consulta, Observacao as Ob FROM CONSULTA as C INNER JOIN Aluno as A 
-					INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
-					INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
-					WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula AND ID_Consulta = 1;
-                     
-select * from consulta; 
-
-DELETE FROM Consulta WHERE ID_Consulta = 1;
-
-UPDATE Consulta SET fk_Aluno_Matricula =2 where ID_Consulta = 1;
-
-SELECT * FROM Aluno;
  
 COMMIT;

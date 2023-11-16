@@ -110,7 +110,7 @@
 									<p>
 										<label class="w3-text-IE"><b>Email</b>*</label>
 										<input class="w3-input w3-border w3-light-grey " name="Email" id="Email" type="email"
-											maxlength="15" placeholder="email@email.com" title="email@email.com"
+											 placeholder="email@email.com" title="email@email.com"
 											value="<?php echo $Email; ?>" required>
 									</p>
 									<p>

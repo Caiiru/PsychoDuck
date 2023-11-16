@@ -83,7 +83,7 @@
                         }
 
 
-                        echo "<div>";
+                        echo '<div style="display: flex;align-itens:center;justify-content: center;align-items: center;flex-direction: column;">';
                         echo "</td><td>";
                         echo "<span>CIP: $row[CIP]</span>";
                         echo "<h3>$row[Nome]</h3>";
