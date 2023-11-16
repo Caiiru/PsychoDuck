@@ -56,7 +56,7 @@
 				mysqli_query($conn, 'SET character_set_results=utf8');
 
 				// Faz Select na Base de Dados
-				$sql = "SELECT ID, Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
+				$sql = "SELECT ID,ID_Curso, Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
 				DT_Inicio, 
 				DT_Nascimento as Data_Nascimento, Foto 
 				FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) 
@@ -81,7 +81,21 @@
 						$foto = $row['Foto'];
 						$NotaMedia = $row['NotaMedia'];
 						$QTD_FALTAS = $row['Faltas'];
+						$Curso = $row['ID_Curso'];
 
+						$sqlG = "SELECT ID_Curso, Nome_Curso FROM Curso";
+
+						$optionsEspec = array();
+
+						if ($result = mysqli_query($conn, $sqlG)) {
+							while ($row = mysqli_fetch_assoc($result)) {
+								$selected = "";
+								if($row["ID_Curso"] == $Curso){
+									$selected = "selected";
+								}
+								array_push($optionsEspec, "\t\t\t<option ". $selected . " value='" . $row["ID_Curso"] . "'>" . $row["Nome_Curso"] . "</option>\n");
+							}
+						}
 
 						?>
 						<div class="w3-container w3-theme">
@@ -118,6 +132,16 @@
 												placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa"
 												value="<?php echo $dataNasc; ?>">
 										</p>
+										<p><label class="w3-text-IE"><b>Curso</b>*</label>
+											<select name="Curso" id="Curso" class="w3-input w3-border w3-light-grey" required>
+												<option value=""></option>
+												<?php
+												foreach ($optionsEspec as $key => $value) {
+													echo $value;
+												}
+												?>
+											</select>
+										</p>
 										<p>
 											<label class="w3-text-IE"><b>Data de Ingressão</b></label>
 											<input class="w3-input w3-border w3-light-grey " name="dtInicio" type="date"
@@ -138,13 +162,14 @@
 										</select>
 										</p>
 
+
 									</td>
 									<td>
 
 										<p style="text-align:center"><label class="w3-text-IE"><b>Minha Imagem para
 													Identificação: </b></label></p>
 										<?php
-										if ($foto) { ?> 
+										if ($foto) { ?>
 											</p>
 											<p style="text-align:center">
 												<img id="imagemSelecionada" class="w3-circle w3-margin-top"
@@ -169,7 +194,7 @@
 											<input id='ID' name='ID' value="<?php echo $id; ?>" />
 
 										</p>
-										 	
+
 									</td>
 								</tr>
 								<tr>

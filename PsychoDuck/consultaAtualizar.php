@@ -56,120 +56,104 @@
 				mysqli_query($conn, 'SET character_set_results=utf8');
 
 				// Faz Select na Base de Dados
-				$sql = "SELECT ID, Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
-				DT_Inicio, 
-				DT_Nascimento as Data_Nascimento, Foto 
-				FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) 
-				INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso)
-				WHERE Matricula = $id";
+				$sqll = "SELECT P.fk_Usuario_ID as ID_Psicologo, ID_Consulta as ID, CIP, UP.Nome as Nome_Psicologo, UA.ID as ID_Aluno, 
+					UA.Nome as Nome_Aluno, DT_Consulta, Observacao as Observacoes FROM CONSULTA as C INNER JOIN Aluno as A 
+					INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
+					INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
+					WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula";
 
 
 				//Inicio DIV form
 				echo "<div class='w3-responsive w3-card-4'>";
-				if ($result = mysqli_query($conn, $sql)) {
+				if ($result = mysqli_query($conn, $sqll)) {
 
 					if (mysqli_num_rows($result) != null) {
 						$row = mysqli_fetch_assoc($result);
 
 						$id = $row["ID"];
-						$matricula = $row['Matricula'];
-						$nome = $row['Nome'];
-						$Email = $row['Email'];
-						$CPF = $row['CPF'];
-						$dataNasc = $row['Data_Nascimento'];
-						$dataInicio = $row['DT_Inicio'];
-						$foto = $row['Foto'];
-						$NotaMedia = $row['NotaMedia'];
-						$QTD_FALTAS = $row['Faltas'];
+						$ID_Aluno = $row["ID_Aluno"];
+						$PsicologoNome = $row["Nome_Psicologo"];
+						$alunoNome = $row["Nome_Aluno"];
+						$dataConsulta = $row["DT_Consulta"];
+						$CIP = $row["CIP"];
+						$observacoes = $row["Observacoes"];
 
+
+						$sqlPsicologo = "SELECT Nome as Nome_Psicologo,CIP ,ID as ID_Psicologo FROM Usuario as U INNER JOIN Psicologo as P ON(P.fk_Usuario_ID = U.ID)";
+						$psicologoOptions = array();
+
+						$sqlAluno = "SELECT Nome as Nome_Aluno, ID as ID_Aluno FROM USUARIO AS U 
+						INNER JOIN Aluno AS A ON (A.FK_USUARIO_ID = U.ID)";
+						$alunoOptions = array();
+
+						if ($result = mysqli_query($conn, $sqlPsicologo)) {
+							while ($row = mysqli_fetch_assoc($result)) {
+								$selected = "";
+								if ($row['CIP'] == $CIP) {
+									$selected = 'selected';
+								}
+								array_push($psicologoOptions, "\t\t\t<option " . $selected . " value='" . $row["CIP"] . "'>" . $row["Nome_Psicologo"] . "</option>\n");
+							}
+						}
+
+						if ($result = mysqli_query($conn, $sqlAluno)) {
+							while ($row = mysqli_fetch_assoc($result)) {
+								$selected = "";
+								if ($row['ID_Aluno'] == $ID_Aluno) {
+									$selected = 'selected';
+								}
+								array_push($alunoOptions, "\t\t\t<option " . $selected . " value='" . $row["ID_Aluno"] . "'>" . $row["Nome_Aluno"] . "</option>\n");
+							}
+						}
 
 						?>
 						<div class="w3-container w3-theme">
-							<h2>Altere os dados de Matricula. = [
-								<?php echo $matricula; ?>]
+							<h2>Altere os dados da consulta. = [
+								<?php echo $id; ?>]
 							</h2>
 						</div>
-						<form class="w3-container" action="alunoAtualizar_exe.php" method="post" enctype="multipart/form-data">
+						<form class="w3-container" action="consultaAtualizar_exe.php" method="post" enctype="multipart/form-data">
 							<table class='w3-table-all'>
 								<tr>
 									<td style="width:50%;">
 										<p>
 											<input type="hidden" id="Id" name="Id" value="<?php echo $id; ?>">
-										<p>
-											<label class="w3-text-IE"><b>Nome</b></label>
-											<input class="w3-input w3-border w3-light-grey " name="Nome" type="text"
-												pattern="[a-zA-Z\u00C0-\u00FF ]{10,100}$" title="Nome entre 10 e 100 letras."
-												value="<?php echo $nome; ?>" required>
+										<p><label class="w3-text-IE"><b>Psicologo</b>*</label>
+											<select name="Psicologo" id="Psicologo" class="w3-input w3-border w3-light-grey"
+												required>
+												<option value="<?php echo $PsicologoNome ?>"></option>
+												<?php
+												foreach ($psicologoOptions as $key => $value) {
+													echo $value;
+												}
+												?>
+											</select>
+										</p>
+										<p><label class="w3-text-IE"><b>Aluno</b>*</label>
+											<select name="Aluno" id="Aluno" class="w3-input w3-border w3-light-grey" required>
+												<option value=""></option>
+												<?php
+												foreach ($alunoOptions as $key => $value) {
+													echo $value;
+												}
+												?>
+											</select>
 										</p>
 										<p>
-											<label class="w3-text-IE"><b>CPF</b>*</label>
-											<input class="w3-input w3-border w3-light-grey " name="CPF" id="CPF" type="text"
-												maxlength="15" value="<?php echo $CPF; ?>" required>
-										</p>
-										<p>
-											<label class="w3-text-IE"><b>Email</b>*</label>
-											<input class="w3-input w3-border w3-light-grey " name="Email" id="Email"
-												type="email" maxlength="15" placeholder="email@email.com"
-												title="email@email.com" value="<?php echo $Email; ?>" required>
-										</p>
-										<p>
-											<label class="w3-text-IE"><b>Data de Nascimento</b></label>
-											<input class="w3-input w3-border w3-light-grey " name="DT_Nascimento" type="date"
+											<label class="w3-text-IE"><b>Data da Consulta</b>*</label>
+											<input class="w3-input w3-border w3-light-grey " name="DT_Consulta" type="date"
 												placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa"
-												value="<?php echo $dataNasc; ?>">
-										</p>
-										<p>
-											<label class="w3-text-IE"><b>Data de Ingressão</b></label>
-											<input class="w3-input w3-border w3-light-grey " name="dtInicio" type="date"
-												placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa"
-												value="<?php echo $dataInicio; ?>">
-										</p>
-										<p>
-											<label class="w3-text-IE"><b>Notas</b></label>
-											<input class="w3-input w3-border w3-light-grey " name="NotaMedia" type="number"
-												placeholder="100" value="<?php echo $NotaMedia; ?>">
-										</p>
-										<p>
-											<label class="w3-text-IE"><b>Faltas</b></label>
-											<input class="w3-input w3-border w3-light-grey " name="QTD_Faltas" type="number"
-												placeholder="0" value="<?php echo $QTD_FALTAS; ?>">
-										</p>
-
-										</select>
+												value="<?php echo $dataConsulta; ?>">
 										</p>
 
 									</td>
 									<td>
-
-										<p style="text-align:center"><label class="w3-text-IE"><b>Minha Imagem para
-													Identificação: </b></label></p>
-										<?php
-										if ($foto) { ?> 
-											</p>
-											<p style="text-align:center">
-												<img id="imagemSelecionada" class="w3-circle w3-margin-top"
-													src="data:image/png;base64,<?= base64_encode($foto); ?>" />
-											</p>
-											<?php
-										} else {
-											?>
-											<p style="text-align:center">
-												<img id="imagemSelecionada" class="w3-circle w3-margin-top"
-													src="imagens/pessoa.jpg" />
-											</p>
-											<?php
-										}
-										?>
-										<p style="text-align:center"><label class="w3-btn w3-theme">Selecione uma Imagem
-												<input type="hidden" name="MAX_FILE_SIZE" value="16777215" />
-												<input type="file" id="Imagem" name="Imagem" accept="imagem/*"
-													onchange="validaImagem(this);" /></label>
+										<p>
+											<label class="w3-text-IE"><b>Observação</b></label>
+											<input class="w3-input w3-border w3-light-grey " name="Text_Observacao" type="text"
+												 title="Observação Consulta"
+												value="<?php echo $observacoes; ?>" >
 										</p>
-										<p style='display:none'>
-											<input id='ID' name='ID' value="<?php echo $id; ?>" />
-
-										</p>
-										 	
 									</td>
 								</tr>
 								<tr>
@@ -177,7 +161,7 @@
 										<p>
 											<input type="submit" value="Alterar" class="w3-btn w3-red">
 											<input type="button" value="Cancelar" class="w3-btn w3-theme"
-												onclick="window.location.href='alunolistar.php'">
+												onclick="window.location.href='consultaListar.php'">
 										</p>
 								</tr>
 							</table>
@@ -186,7 +170,7 @@
 						<?php
 					} else { ?>
 						<div class="w3-container w3-theme">
-							<h2>Aluno inexistente</h2>
+							<h2>Consulta inexistente</h2>
 						</div>
 						<br>
 						<?php

@@ -56,11 +56,10 @@
 				mysqli_query($conn, 'SET character_set_results=utf8');
 
 				// Faz Select na Base de Dados
-				$sql = "SELECT ID, fk_Curso_ID_Curso, Matricula,CPF,Nome,Email, Nome_Curso as Curso,
-				DT_Nascimento as Data_Nascimento, Foto 
-				FROM Usuario as U INNER JOIN Professor as P ON (P.fk_Usuario_ID = U.ID) 
-				INNER JOIN CURSO AS C ON (P.fk_Curso_ID_CUrso = C.ID_Curso)
-				WHERE Matricula = $id";
+				$sql = "SELECT ID, CIP,DT_Nascimento,CPF,Email,CPF,Nome,ID_Espec as Especialidade, FOTO FROM Psicologo as P 
+				INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID) 
+				inner join especialidade as E On (P.fk_Especialidade_Id = e.ID_Espec)
+				WHERE ID = $id";
 
 
 
@@ -71,34 +70,36 @@
 
 					if (mysqli_num_rows($result) != null) {
 						$row = mysqli_fetch_assoc($result);
+						$ID = $row["ID"];
+						$CIP = $row["CIP"];
+						$CPF = $row["CPF"];
+						$nome = $row["Nome"];
+						$Especialidade = $row["Especialidade"];
+						$Email = $row["Email"];
+						$dataNasc = $row["DT_Nascimento"];
+						$foto = $row["FOTO"];
 
-						$id = $row["ID"];
-						$matricula = $row['Matricula'];
-						$nome = $row['Nome'];
-						$Email = $row['Email'];
-						$CPF = $row['CPF'];
-						$dataNasc = $row['Data_Nascimento'];
-						$foto = $row['Foto'];
-						$curso = $row['fk_Curso_ID_Curso'];
-						$sqlG = "SELECT ID_Curso, Nome_Curso FROM Curso";
+						$sqlG = "SELECT ID_Espec, Nome_Espec FROM Especialidade";
 
-						$optionsCurso = array();
+						$optionsEspec = array();
+
 						if ($result = mysqli_query($conn, $sqlG)) {
 							while ($row = mysqli_fetch_assoc($result)) {
 								$selected = "";
-								if ($row['ID_Curso'] == $curso)
+								if($row["ID_Espec"] == $Especialidade){
 									$selected = "selected";
-								array_push($optionsCurso, "\t\t\t<option " . $selected . " value='" . $row["ID_Curso"] . "'>" . $row["Nome_Curso"] . "</option>\n");
+								}
+								array_push($optionsEspec, "\t\t\t<option ". $selected . " value='" . $row["ID_Espec"] . "'>" . $row["Nome_Espec"] . "</option>\n");
 							}
 						}
 
 						?>
 						<div class="w3-container w3-theme">
-							<h2>Altere os dados do professor. Matricula. =
-								<?php echo $matricula; ?>
+							<h2>Altere os dados do Psicologo. CIP =
+								<?php echo $CIP; ?>
 							</h2>
 						</div>
-						<form class="w3-container" action="professorAtualizar_exe.php" method="post"
+						<form class="w3-container" action="psicologoAtualizar_exe.php" method="post"
 							enctype="multipart/form-data">
 							<table class='w3-table-all'>
 								<tr>
@@ -112,9 +113,9 @@
 												value="<?php echo $nome; ?>" required>
 										</p>
 										<p>
-											<label class="w3-text-IE"><b>CPF</b>*</label>
-											<input class="w3-input w3-border w3-light-grey " name="CPF" id="CPF" type="text"
-												maxlength="15" value="<?php echo $CPF; ?>" required>
+											<label class="w3-text-IE"><b>CIP</b>*</label>
+											<input class="w3-input w3-border w3-light-grey " name="CIP" id="CIP" type="text"
+												maxlength="15" value="<?php echo $CIP; ?>" required>
 										</p>
 										<p>
 											<label class="w3-text-IE"><b>Email</b>*</label>
@@ -123,16 +124,23 @@
 												title="email@email.com" value="<?php echo $Email; ?>" required>
 										</p>
 										<p>
+											<label class="w3-text-IE"><b>CPF</b>*</label>
+											<input class="w3-input w3-border w3-light-grey " name="CPF" id="CPF" type="text"
+												maxlength="11" placeholder="CPF XXXXXXXXXXX" title="CPF XXXXXXXXXXX" required
+												value = "<?php echo $CPF; ?>">
+										</p>
+										<p>
 											<label class="w3-text-IE"><b>Data de Nascimento</b></label>
 											<input class="w3-input w3-border w3-light-grey " name="DT_Nascimento" type="date"
 												placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa"
 												value="<?php echo $dataNasc; ?>">
 										</p>
-										<p><label class="w3-text-IE"><b>Curso</b>*</label>
-											<select name="Curso" id="Curso" class="w3-input w3-border w3-light-grey " required>
-
+										<p><label class="w3-text-IE"><b>Especialidade?</b>*</label>
+											<select name="Especialidade" id="Especialidade"
+												class="w3-input w3-border w3-light-grey" required>
+												<option value=""></option>
 												<?php
-												foreach ($optionsCurso as $key => $value) {
+												foreach ($optionsEspec as $key => $value) {
 													echo $value;
 												}
 												?>
@@ -187,7 +195,7 @@
 						<?php
 					} else { ?>
 						<div class="w3-container w3-theme">
-							<h2>Professor inexistente</h2>
+							<h2>Aluno inexistente</h2>
 						</div>
 						<br>
 						<?php

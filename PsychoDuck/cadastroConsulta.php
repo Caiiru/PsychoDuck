@@ -115,17 +115,17 @@
 										</select>
 									</p>
 									<p>
-										<label class="w3-text-IE"><b>Data da Consulta</b></label>
+										<label class="w3-text-IE"><b>Data da Consulta</b>*</label>
 										<input class="w3-input w3-border w3-light-grey" name="DT_Consulta" type="date"
-											placeholder="dd/mm/aaaa" title="dd/mm/aaaa" </p>
+											placeholder="dd/mm/aaaa" title="dd/mm/aaaa" required>
 									</p>
 
 								</td>
 								<td>
 									<p>
-										<label class="w3-text-IE"><b>Observação</b>*</label>
-										<textarea id='Observacao' name='Observacao'
-											class="w3-input w3-border w3-light-grey" required> </textarea>
+										<label class="w3-text-IE"><b>Observação</b></label>
+										<input class="w3-input w3-border w3-light-grey " name="Observacao" type="text"
+											title="Observação Consulta">
 									</p>
 								</td>
 

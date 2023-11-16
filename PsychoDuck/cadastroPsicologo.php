@@ -73,7 +73,7 @@
 
 				<div class="w3-responsive w3-card-4">
 					<div class="w3-container w3-theme">
-						<h2>Informe os dados do novo Aluno</h2>
+						<h2>Informe os dados do novo Psicologo</h2>
 					</div>
 					<form class="w3-container" action="cadastroPsicologo_exe.php" method="post"
 						enctype="multipart/form-data">

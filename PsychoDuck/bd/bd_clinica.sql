@@ -1,6 +1,6 @@
-drop database if exists psychoduck_database;
-create database psychoduck_database;
-use psychoduck_database;
+drop database if exists psychoduck;
+create database psychoduck;
+use psychoduck;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -77,7 +77,7 @@ CREATE TABLE Assiste (
 CREATE TABLE Consulta (
     fk_Psicologo_CIP VARCHAR(20),
     fk_Aluno_Matricula INT,
-    DT_Consulta DATETIME,
+    DT_Consulta DATE,
     Observacao VARCHAR(300),
     ID_Consulta INT PRIMARY KEY AUTO_INCREMENT
 );
@@ -166,7 +166,7 @@ values("Engenharia de Software","4"),
 ("Design de Moda","8");
 
 INSERT INTO ALUNO(fk_Usuario_ID, fk_Curso_ID_Curso,DT_Inicio,NotaMedia,QTD_Faltas)
-values(1,4,"2022-02-14",90,5),
+values(1,3,"2022-02-14",90,5),
 (2,4,"2023-02-18",60,10);
 
 INSERT INTO PROFESSOR(fk_Usuario_ID, fk_Curso_ID_Curso)
@@ -211,7 +211,7 @@ SELECT Matricula, Nome as Nome_Professor,CPF, Nome_Curso as Curso, Foto FROM Pro
 select ID_Curso as ID, Nome_Curso as Nome  from curso; 
 
 /*SELECT Aluno*/
-SELECT ID,Nome, Nome_Curso as Curso, DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, Foto FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
+SELECT Matricula,CPF,Nome, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, DATE_FORMAT(DT_Nascimento,'%d/%m/%Y') as Data_Nascimento, Foto FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
 
 /*SELECT Psicologo*/
 SELECT ID,Nome as Nome_Psicologo, CIP, Nome_Espec as Especialidade, Foto FROM Usuario as U INNER JOIN Psicologo as P ON (P.fk_Usuario_ID = U.ID) INNER JOIN Especialidade AS E ON (P.fK_Especialidade_ID = E.ID_Espec);
@@ -219,4 +219,57 @@ SELECT ID,Nome as Nome_Psicologo, CIP, Nome_Espec as Especialidade, Foto FROM Us
 /*SELECT Especilidade*/
 SELECT ID_Espec as ID, Nome_Espec as Nome_Especialidade FROM Especialidade;
 
+SELECT * FROM USUARIO; 
+SELECT Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
+				DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, 
+				DATE_FORMAT(DT_Nascimento,'%d/%m/%Y') as Data_Nascimento, Foto 
+				FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) 
+				INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
+                
+SELECT Matricula,CPF,Nome,Email, Nome_Curso as Curso, NotaMedia, QTD_FALTAS as Faltas,
+				DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, 
+				DT_Nascimento as Data_Nascimento, Foto 
+				FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) 
+				INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso);
+
+                
+select * from Curso;
+
+UPDATE Usuario SET Nome = 'Jorgao'
+				WHERE ID = 1;
+                
+select * from usuario;
+
+SELECT * FROM professor;
+    
+
+SELECT fk_Usuario_ID as ID_Psicologo, U.Nome FROM PSICOLOGO as P INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID)
+	WHERE P.fk_Usuario_ID = U.ID; 
+
+SELECT Nome FROM PSICOLOGO as P Inner join Usuario as U ON (P.fk_Usuario_ID = U.ID) WHERE CIP = '13245516667';
+
+INSERT INTO Consulta(fk_Psicologo_CIP, fk_Aluno_Matricula, DT_Consulta) values('13245516667', 1, '2020-02-01');
+SELECT * FROM CONSULTA;
+
+SELECT Nome, ID as ID_Psicologo FROM Usuario as U INNER JOIN Psicologo as P ON(P.fk_Usuario_ID = U.ID);
+
+ 
+ SELECT ID_Consulta, fk_Psicologo_CIP, fk_Aluno_Matricula, DT_Consulta, Observacao, ID_Consulta FROM Consulta;
+ 
+SELECT P.fk_Usuario_ID as ID_Psicologo, ID_Consulta as ID, CIP, UP.Nome as Nome_Psicologo, UA.ID as ID_Aluno, UA.Nome as Nome_Aluno, DT_Consulta, Observacao as Ob FROM CONSULTA as C INNER JOIN Aluno as A 
+					INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
+					INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
+					WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula;
+                    
+SELECT ID_Consulta as ID, UP.Nome as Psicologo_Nome, CIP, UA.Nome as Nome_Aluno, DT_Consulta, Observacao as Ob FROM CONSULTA as C INNER JOIN Aluno as A 
+					INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
+					INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
+					WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula AND ID_Consulta = 1;
+                     
+select * from consulta; 
+
+DELETE FROM Consulta WHERE ID_Consulta = 1;
+
+UPDATE Consulta SET fk_Aluno_Matricula =2 where ID_Consulta = 1;
+ 
 COMMIT;

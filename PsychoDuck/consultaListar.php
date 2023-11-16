@@ -120,7 +120,6 @@
             ?>
         </div>
     </div>
-    
 	<?php require 'geral/sobre.php';?>
 	<!-- FIM PRINCIPAL -->
 	</div>
