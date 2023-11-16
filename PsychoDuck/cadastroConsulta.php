@@ -16,6 +16,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -26,22 +28,14 @@
 	<?php require 'bd/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado paa direita em 270 pixels quando a sidebar é visível -->
-	<div class="w3-main w3-container" style="margin-left:270px;margin-top:117px;">
+	<div class="w3-main w3-container" style="margin-top:117px;">
 
 		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
 			<!-- h1 class="w3-xxlarge">Contratação de Médico</h1 -->
 			<p class="w3-large">
-			<div class="w3-code cssHigh notranslate">
+			<div class="cssHigh notranslate">
 				<!-- Acesso em:-->
-				<?php
-
-				date_default_timezone_set("America/Sao_Paulo");
-				$data = date("d/m/Y H:i:s", time());
-				echo "<p class='w3-small' > ";
-				echo "Acesso em: ";
-				echo $data;
-				echo "</p> "
-					?>
+				 
 				<!-- Acesso ao BD-->
 				<?php
 
@@ -65,7 +59,7 @@
 				WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula";
 
 				$sqlPsicologo = "SELECT Nome as Nome_Psicologo,CIP ,ID as ID_Psicologo FROM Usuario as U INNER JOIN Psicologo as P ON(P.fk_Usuario_ID = U.ID)";
-				$sqlAluno = "SELECT Nome as Nome_Aluno, ID as ID_Aluno FROM USUARIO AS U INNER JOIN Aluno AS A ON (A.FK_USUARIO_ID = U.ID)";
+				$sqlAluno = "SELECT Matricula, Nome as Nome_Aluno, ID as ID_Aluno FROM USUARIO AS U INNER JOIN Aluno AS A ON (A.FK_USUARIO_ID = U.ID)";
 				$psicologoOptions = array();
 				$alunoOptions = array();
 				//Selecionar Psicologo
@@ -76,7 +70,7 @@
 				}
 				if ($result = mysqli_query($conn, $sqlAluno)) {
 					while ($row = mysqli_fetch_assoc($result)) {
-						array_push($alunoOptions, "\t\t\t<option value='" . $row["ID_Aluno"] . "'>" . $row["Nome_Aluno"] . "</option>\n");
+						array_push($alunoOptions, "\t\t\t<option value='" . $row["Matricula"] . "'>" . $row["Nome_Aluno"] . "</option>\n");
 					}
 				}
 
@@ -84,7 +78,7 @@
 				?>
 
 				<div class="w3-responsive w3-card-4">
-					<div class="w3-container w3-theme">
+					<div class="w3-container w3-purple">
 						<h2>Informe os dados da Consulta</h2>
 					</div>
 					<form class="w3-container" action="cadastroConsulta_exe.php" method="post"
@@ -133,8 +127,8 @@
 							<tr>
 								<td colspan="2" style="text-align:center">
 									<p>
-										<input type="submit" value="Salvar" class="w3-btn w3-theme">
-										<input type="button" value="Cancelar" class="w3-btn w3-theme"
+										<input type="submit" value="Salvar" class="w3-btn w3-purple">
+										<input type="button" value="Cancelar" class="w3-btn w3-red"
 											onclick="window.location.href='listarConsulta.php'">
 									</p>
 								</td>
@@ -146,8 +140,7 @@
 			</div>
 			</p>
 		</div>
-
-		<?php require 'geral\sobre.php'; ?>
+ 
 		<!-- FIM PRINCIPAL -->
 	</div>
 	<!-- Inclui RODAPE.PHP  -->

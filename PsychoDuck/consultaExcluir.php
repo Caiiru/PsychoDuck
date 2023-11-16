@@ -16,6 +16,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body onload="w3_show_nav('menuMedico')">
@@ -25,22 +27,12 @@
 	<?php require 'bd/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
-	<div class="w3-main w3-container" style="margin-left:270px;margin-top:117px;">
-
+	<div class="w3-main w3-container">
+		<section class='form-container'>
 		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
-			<p class="w3-large">
-			<div class="w3-code cssHigh notranslate">
+			<div class="cssHigh notranslate">
 				<!-- Acesso em:-->
-				<?php
-
-				date_default_timezone_set("America/Sao_Paulo");
-				$data = date("d/m/Y H:i:s", time());
-				echo "<p class='w3-small' > ";
-				echo "Acesso em: ";
-				echo $data;
-				echo "</p> "
-					?>
-
+			 
 				<!-- Acesso ao BD-->
 				<?php
 
@@ -60,7 +52,7 @@
 				$idConsulta = $_GET['id'];
 
 				// Faz Select na Base de Dados
-				$sql = "SELECT ID_Consulta as ID, UP.Nome as Psicologo_Nome, UA.Nome as Nome_Aluno, DT_Consulta, Observacao FROM CONSULTA as C INNER JOIN Aluno as A 
+				$sql = "SELECT ID_Consulta as ID, UP.Nome as Psicologo_Nome, UA.Nome as Nome_Aluno, DATE_FORMAT(DT_Consulta, '%d/%m/%Y') as DT_Consulta, Observacao FROM CONSULTA as C INNER JOIN Aluno as A 
 				INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
 				INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
 				WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula AND ID_Consulta = $idConsulta";
@@ -72,12 +64,11 @@
 						$row = mysqli_fetch_assoc($result);
 
 						?>
-						<div class="w3-container w3-theme">
-							<h2>Exclusão da Consulta Cód. = [
-								<?php echo $row['ID']; ?>]
+						<div class="w3-container w3-purple">
+							<h2>Exclusão da Consulta [<?php echo $row['ID']; ?>]
 							</h2>
 						</div>
-						<form class="w3-container" action="alunoExcluir_exe.php" method="post"
+						<form class="w3-container" action="consultaExcluir_exe.php" method="post"
 							onsubmit="return check(this.form)">
 							<input type="hidden" id="Id" name="Id" value="<?php echo $row['ID']; ?>">
 							<p>
@@ -101,9 +92,9 @@
 								</label>
 							</p>
 							<p>
-								<input type="submit" value="Confirma exclusão?" class="w3-btn w3-red">
-								<input type="button" value="Cancelar" class="w3-btn w3-theme"
-									onclick="window.location.href='professorListar.php'">
+								<input type="submit" value="Confirma exclusão?" class="w3-btn w3-purple">
+								<input type="button" value="Cancelar" class="w3-btn w3-red"
+									onclick="window.location.href='consultaListar.php'">
 							</p>
 						</form>
 					<?php
@@ -123,8 +114,8 @@
 			</div>
 			</p>
 		</div>
-
-		<?php require 'geral/sobre.php'; ?>
+		</section>
+ 
 		<!-- FIM PRINCIPAL -->
 	</div>
 	<!-- Inclui RODAPE.PHP  -->

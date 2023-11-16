@@ -7,56 +7,42 @@
 <!-- menu.php -->
 
 <!-- Top -->
-<div class="w3-top">
-	<div class="w3-row w3-white w3-padding">
-		<div class="w3-half" style="margin:0 0 0 0">
-			<a href="."><img src='imagens/logo.jpg' alt=' Clínica Médica ABC '></a>
-		</div>
-		<div class="w3-half w3-margin-top w3-wide w3-hide-medium w3-hide-small">
-			<div class="w3-right">
-			</div>
-		</div>
-	</div>
-	<div class="w3-bar w3-theme w3-large" style="z-index:-1">
-		<a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-light-gray w3-large w3-theme w3-padding-16"
-			href="javascript:void(0)" onclick="w3_open()">☰</a>
-		<a class="w3-bar-item w3-button w3-hide-medium w3-hide-small w3-hover-light-gray w3-padding-16"
-			href="alunolistar.php" onclick="w3_show_nav('menuMedico')">Listar</a>
-	</div>
-</div>
-
 
 
 <!-- Sidebar -->
-<div class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" style="z-index:3;width:270px" id="mySidebar">
-	<div class="w3-bar w3-hide-large w3-large">
-		<a href="javascript:void(0)" onclick="w3_show_nav('menuMedico')"
-			class="w3-bar-item w3-button w3-theme w3-hover-light-gray w3-padding-16" style="width:50%">Médicos</a>
+<div class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" style="z-index:3;width:0px" id="mySidebar">
 
+	<div class="side-bar">
 
-	</div>
-	<a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-right w3-xlarge w3-hide-large"
-		title="Close Menu">x</a>
-	<div id="menuMedico" class="myMenu">
-		<div class="w3-container">
-			<h3>Usuarios</h3>
-		</div>
-		<a class="w3-bar-item w3-button" href="alunolistar.php">Lista de Alunos</a>
-		<a class="w3-bar-item w3-button" href="cadastroAluno.php">Cadastro de Aluno</a>
-		<a class="w3-bar-item w3-button" href="psicologolistar.php">Lista de Psicologos</a>
-		<a class="w3-bar-item w3-button" href="cadastroPsicologo.php">Cadastro de Psicologo</a>
-		<a class="w3-bar-item w3-button" href="professorlistar.php">Lista de Professores</a>
-		<a class="w3-bar-item w3-button" href="cadastroProfessor.php">Cadastro de Professor</a>
-		<div id="menuConsulta" class="myMenu">
-			<div class='w3-container'>
-				<h3>Consulta</h3>
-			</div>	
-			<a class="w3-bar-item w3-button" href="consultaListar.php">Lista de Consultas</a>
-			<a class="w3-bar-item w3-button" href="cadastroConsulta.php">Cadastro de Consulta</a>
+		<div id="close-btn">
+			<i class="fas fa-times"></i>
 		</div>
 
+		<div class="profile">
+			<a href="."><img src="Imagens\logo-psychoduck.png" class="image" alt="Psychoduck Logo"></a>
+			<h2> PsychoDuck </h2>
 
+		</div>
+
+		<nav class="navbar">
+			<a href="alunolistar.php"><i class="fas fa-address-book"></i><span>Alunos</span></a>
+			<a href="psicologolistar.php"><i class="fas fa-brain"></i><span>Psicologos</span></a>
+			<a href="professorlistar.php"><i class="fas fa-chalkboard-user"></i><span>Professores</span></a>
+			<a href="consultalistar.php"><i class="fas fa-comments"></i><span>Consultas</span></a>
+		</nav>
+		<?php
+		
+
+		date_default_timezone_set("America/Sao_Paulo");
+		$data = date("d/m/Y H:i:s", time());
+		echo "<p class='w3-small' > ";
+		echo "Acesso em: ";
+		echo $data;
+		echo "</p> "
+			?>
 	</div>
+
+
 
 </div>
 

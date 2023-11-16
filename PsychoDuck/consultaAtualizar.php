@@ -15,6 +15,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body onload="w3_show_nav('menuMedico')">
@@ -23,20 +25,13 @@
 	<?php require 'bd/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
-	<div class="w3-main w3-container" style="margin-left:270px;margin-top:117px;">
-		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
-			<p class="w3-large">
-			<div class="w3-code cssHigh notranslate">
-				<!-- Acesso em:-->
-				<?php
+	<div class="w3-main w3-container">
+		<section class="form-container">
 
-				date_default_timezone_set("America/Sao_Paulo");
-				$data = date("d/m/Y H:i:s", time());
-				echo "<p class='w3-small' > ";
-				echo "Acesso em: ";
-				echo $data;
-				echo "</p> "
-					?>
+
+			<div class="cssHigh notranslate">
+				<!-- Acesso em:-->
+
 
 				<!-- Acesso ao BD-->
 				<?php
@@ -64,7 +59,7 @@
 
 
 				//Inicio DIV form
-				echo "<div class='w3-responsive w3-card-4'>";
+				echo "<div class='w3-responsive w3-card-4' style='width:700px;'>";
 				if ($result = mysqli_query($conn, $sqll)) {
 
 					if (mysqli_num_rows($result) != null) {
@@ -107,12 +102,13 @@
 						}
 
 						?>
-						<div class="w3-container w3-theme">
-							<h2>Altere os dados da consulta. = [
+						<div class="w3-container w3-purple">
+							<h2>Altere os dados da consulta [
 								<?php echo $id; ?>]
 							</h2>
 						</div>
-						<form class="w3-container" action="consultaAtualizar_exe.php" method="post" enctype="multipart/form-data">
+						<form class="w3-container" action="consultaAtualizar_exe.php" method="post"
+							enctype="multipart/form-data">
 							<table class='w3-table-all'>
 								<tr>
 									<td style="width:50%;">
@@ -149,18 +145,19 @@
 									</td>
 									<td>
 										<p>
+										</p>
+										<p>
 											<label class="w3-text-IE"><b>Observação</b></label>
 											<input class="w3-input w3-border w3-light-grey " name="Text_Observacao" type="text"
-												 title="Observação Consulta"
-												value="<?php echo $observacoes; ?>" >
+												title="Observação Consulta" value="<?php echo $observacoes; ?>">
 										</p>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="2" style="text-align:center">
 										<p>
-											<input type="submit" value="Alterar" class="w3-btn w3-red">
-											<input type="button" value="Cancelar" class="w3-btn w3-theme"
+											<input type="submit" value="Alterar" class="w3-btn w3-purple">
+											<input type="button" value="Cancelar" class="w3-btn w3-red"
 												onclick="window.location.href='consultaListar.php'">
 										</p>
 								</tr>
@@ -183,9 +180,8 @@
 				?>
 			</div>
 			</p>
-		</div>
+		</section>
 
-		<?php require 'geral/sobre.php'; ?>
 		<!-- FIM PRINCIPAL -->
 	</div>
 	<!-- Inclui RODAPE.PHP  -->

@@ -15,6 +15,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body onload="w3_show_nav('menuMedico')">
@@ -23,34 +25,20 @@
 	<?php require 'bd/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
-	<div class="w3-main w3-container" style="margin-left:270px;margin-top:117px;">
-
-		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
-
-			<p class="w3-large">
-			<div class="w3-code cssHigh notranslate">
-				<!-- Acesso em:-->
-				<?php
-
-				date_default_timezone_set("America/Sao_Paulo");
-				$data = date("d/m/Y H:i:s", time());
-				echo "<p class='w3-small' > ";
-				echo "Acesso em: ";
-				echo $data;
-				echo "</p> "
-					?>
-				<div class="w3-container w3-theme">
+	<div class="w3-main w3-container">
+		<section class='form-container'>
+			<div class='response-box box'>
+				<div class="w3-container w3-purple">
 					<h2>Atualização de Usuario</h2>
 				</div>
-				<!-- Acesso ao BD-->
 				<?php
 				// Recebe os dados que foram preenchidos no formulário, com os valores que serão atualizados
-				 // identifica o registro a ser alterado
+				// identifica o registro a ser alterado
 				$id = $_POST['ID'];
 				$nome = $_POST['Nome'];
 				$CPF = $_POST['CPF'];
 				$Email = $_POST['Email'];
-				$dataConsulta = $_POST['DT_Nascimento']; 
+				$dataConsulta = $_POST['DT_Nascimento'];
 				$NotaMedia = $_POST["NotaMedia"];
 				$dataInicio = $_POST['dtInicio'];
 				$QTD_FALTAS = $_POST['QTD_Faltas'];
@@ -83,15 +71,15 @@
 						DT_Nascimento = '$dataConsulta', Foto = '$imagem'
 					where id = '$id'";
 				}
-				
+
 				$sqlAluno = "UPDATE Aluno SET DT_Inicio = '$dataInicio',NotaMedia='$NotaMedia', QTD_FALTAS='$QTD_FALTAS'
 				WHERE fk_Usuario_ID = '$id'";
-				 
-				
+
+
 
 				echo "<div class='w3-responsive w3-card-4'>";
 				if ($result = mysqli_query($conn, $sqlUsuario)) {
-					$conn -> query($sqlAluno);
+					$conn->query($sqlAluno);
 					echo "<p>&nbsp;Registro alterado com sucesso! </p>";
 				} else {
 					echo "<p>&nbsp;Erro executando UPDATE: " . mysqli_error($conn) . "</p>";
@@ -101,9 +89,12 @@
 				
 				?>
 			</div>
+		</section>
+		<div class='form-card'>
+			<input type="button" value="Voltar" class="w3-btn w3-red"
+				onclick="window.location.href='alunoListar.php'">
+			</tr>
 		</div>
-
-		<?php require 'geral/sobre.php'; ?>
 		<!-- FIM PRINCIPAL -->
 	</div>
 	<!-- Inclui RODAPE.PHP  -->

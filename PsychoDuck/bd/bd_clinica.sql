@@ -271,5 +271,7 @@ select * from consulta;
 DELETE FROM Consulta WHERE ID_Consulta = 1;
 
 UPDATE Consulta SET fk_Aluno_Matricula =2 where ID_Consulta = 1;
+
+SELECT * FROM Aluno;
  
 COMMIT;
