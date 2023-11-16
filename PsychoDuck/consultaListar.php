@@ -11,7 +11,7 @@
 
 <head>
     <title>Psychoduck</title>
-    <link rel="icon" type="image/png" href="imagens/favicon.png" />
+    <link rel="icon" type="image/png" href="imagens/logo-psychoduck.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="css/customize.css">
@@ -61,7 +61,8 @@
                 $sql = "SELECT P.FK_Usuario_ID as ID_Psicologo,CIP, ID_Consulta as ID, UP.Nome as Psicologo_Name, UA.Nome as Aluno_Nome, DATE_FORMAT(DT_Consulta, '%d/%m/%Y') as Data_Consulta, Observacao FROM CONSULTA as C INNER JOIN Aluno as A 
                 INNER JOIN USUARIO AS UA ON (A.fk_Usuario_ID = UA.ID) 
                 INNER JOIN Psicologo as P INNER JOIN USUARIO AS UP ON(P.fK_Usuario_ID = UP.ID)
-                WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula";
+                WHERE P.CIP=C.fk_Psicologo_CIP AND A.Matricula = C.fk_Aluno_Matricula
+                ORDER BY DT_Consulta ASC";
 
 
                 echo "<div class='w3-responsive w3-card-4'>";

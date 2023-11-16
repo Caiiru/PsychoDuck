@@ -11,7 +11,7 @@
 
 <head>
 	<title>Psychoduck</title>
-	<link rel="icon" type="image/png" href="imagens/favicon.png" />
+    <link rel="icon" type="image/png" href="imagens/logo-psychoduck.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
@@ -65,7 +65,7 @@
 					$dataNasc = $row['Data_Nascimento'];
 					$foto = $row['Foto'];
 					$curso = $row['fk_Curso_ID_Curso'];
-					$sqlG = "SELECT ID_Curso, Nome_Curso FROM Curso";
+					$sqlG = "SELECT ID_Curso, Nome_Curso FROM Curso ORDER BY Nome_Curso ASC";
 
 					$optionsCurso = array();
 					if ($result = mysqli_query($conn, $sqlG)) {
