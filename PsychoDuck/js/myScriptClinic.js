@@ -45,15 +45,17 @@ function validaImagem(input) {
       if (arquivoTam < 16) {
           var reader = new FileReader();
           reader.onload = function(e) {
-              document.getElementById('imagemSelecionada').setAttribute('src', e.target.result);
-          };
+              var img= document.getElementById('imagemSelecionada').setAttribute('src', e.target.result);
+              console.log(img);
+            };
           reader.readAsDataURL(input.files[0]);
       } else {
           input.value = '';
           alert("O arquivo precisa ser uma imagem com menos de 16 MB");
       }
   } else{
-      document.getElementById('imagemSelecionada').setAttribute('src', '#');
+      var image = document.getElementById('imagemSelecionada').setAttribute('src', '#');
+      console.log(image);
   }
 }
 

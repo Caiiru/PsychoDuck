@@ -112,7 +112,7 @@
 											value="<?php echo $Email; ?>" required>
 									</p>
 									<p>
-										<label class="w3-text-IE"><b>Data de Nascimento</b></label>
+										<label class="w3-text-IE"><b>Data de Nascimento</b>*</label>
 										<input class="w3-input w3-border w3-light-grey " name="DT_Nascimento" type="date"
 											placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa"
 											value="<?php echo $dataNasc; ?>">

@@ -47,7 +47,9 @@
 				mysqli_query($conn, 'SET character_set_results=utf8');
 
 				$matricula = $_GET['id'];
-				$sql = "SELECT ID,CPF, DATE_FORMAT(DT_Nascimento,'%d/%m/%Y') as DataNascimento,CIP,Nome,Nome_Espec as Especialidade, Foto FROM Psicologo as P INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID) inner join especialidade as E On (P.fk_Especialidade_Id = e.ID_Espec)
+				$sql = "SELECT ID,CPF, DATE_FORMAT(DT_Nascimento,'%d/%m/%Y') as DataNascimento,CIP,Nome,Nome_Espec as Especialidade, Foto 
+				FROM Psicologo as P INNER JOIN Usuario as U ON (P.fk_Usuario_ID = U.ID) inner join especialidade as E 
+				On (P.fk_Especialidade_Id = e.ID_Espec)
 				WHERE ID=$matricula";
 
 				//Inicio DIV form
@@ -87,7 +89,7 @@
 								<label class="w3-text-IE"><b>Especialidade: </b>
 									<?php echo $row['Especialidade']; ?>
 								</label>
-							</p>
+							</p> 
 							<p>
 								<input type="submit" value="Confirma exclusão?" class="w3-btn w3-red">
 								<input type="button" value="Cancelar" class="w3-btn w3-purple"

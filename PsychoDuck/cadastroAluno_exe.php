@@ -97,7 +97,7 @@
 		</section>
 		<div class='form-card'>
 			<input type="button" value="Voltar" class="w3-btn w3-red"
-				onclick="window.location.href='psicologoListar.php'">
+				onclick="window.location.href='alunoListar.php'">
 			</tr>
 		</div>
 

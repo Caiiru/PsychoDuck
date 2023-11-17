@@ -48,7 +48,13 @@
                 mysqli_query($conn, 'SET character_set_results=utf8');
 
                 // Faz Select na Base de Dados
-                $sql = "SELECT Matricula,Nome,CPF,NotaMedia, Nome_Curso as Curso, DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, Foto FROM Usuario as U INNER JOIN Aluno as A ON (A.fk_Usuario_ID = U.ID) INNER JOIN CURSO AS C ON (A.fk_Curso_ID_CUrso = C.ID_Curso)";
+                $sql = "SELECT Matricula,Nome,CPF,NotaMedia, Nome_Curso as Curso, DATE_FORMAT(DT_Inicio, '%d/%m/%Y') as Data_Inicio, Foto 
+                    FROM Usuario as U 
+                    INNER JOIN Aluno as A 
+                    ON (A.fk_Usuario_ID = U.ID) 
+                    INNER JOIN CURSO AS C 
+                    ON (A.fk_Curso_ID_CUrso = C.ID_Curso)";
+
                 echo "<div class ='box-container'>";
                 if ($result = mysqli_query($conn, $sql)) { ?>
                     <div class='box offer'>
